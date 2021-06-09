@@ -12,6 +12,7 @@ export class SignupComponent implements OnInit {
 
   signUpForm!: FormGroup;
   errorMessage: string | undefined;
+  errorPasswordVerif: string | undefined; 
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
@@ -24,20 +25,26 @@ export class SignupComponent implements OnInit {
   initForm() {
     this.signUpForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]]
+      password: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]],
+      verifPassword: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]]
     });
   }
   onSubmit() {
     const email = this.signUpForm?.get('email')?.value;
     const password = this.signUpForm?.get('password')?.value;
-    this.authService.createNewUser(email, password).then(
-        () => {
-        this.router.navigate(['/books']);
-      },
-        (error) => {
-          this.errorMessage = error;
-        }
-    );
+    const verifPassword = this.signUpForm.get('verifPassword')?.value;
+    if(password === verifPassword) {
+      this.authService.createNewUser(email, password).then(
+          () => {
+          this.router.navigate(['/books']);
+        },
+          (error) => {
+           this.errorMessage = error;
+         }
+      );
+    } else {
+      this.errorPasswordVerif = "Le mot de passe saisie n'est pas le même dans les deux champs !";
+    }
   }
 
 

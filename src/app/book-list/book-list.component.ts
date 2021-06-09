@@ -33,7 +33,10 @@ export class BookListComponent implements OnInit, OnDestroy {
   }
 
   onDeleteBook(book: Book) {
-    this.booksService.removeBook(book);
+    if (confirm('Etes vous sur de vouloir supprimer ce livre ?')) {
+      this.booksService.removeBook(book);
+    }
+    
   }
 
   onViewBook(id: number) {

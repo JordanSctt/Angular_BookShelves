@@ -10,8 +10,13 @@
                 <label for="password">Mot de passe</label>
                 <input type="password" id="password" class="form-control" formControlName="password">
             </div>
+            <div class="form-group">
+                <label for="verifPassword">vérification du mot de passe</label>
+                <input type="password" id="verifPassword" class="form-control" formControlName="verifPassword">
+            </div>
             <button class="btn btn-primary" type="submit" [disabled]="signUpForm.invalid">Créer mon compte</button>
         </form>
         <p class="text-danger">{{ errorMessage }}</p>
+        <p class="text-danger">{{ errorPasswordVerif }}</p>
     </div>
 </div>
